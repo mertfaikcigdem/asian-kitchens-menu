@@ -103,46 +103,42 @@ const menu = [
 const sectionCenter = document.querySelector(".section-center");
 const btnContainer = document.querySelector(".btn-container");
 
-const categories = menu.reduce(
-    (values, item) => {
-      if (!values.includes(item.category)) {
-        values.push(item.category);
-      }
-      return values;
-    },
-    ["All"]
-  );
-  
-  const categoryList = () => {
-    const categoryBtns = categories
-      .map((category) => {
+const categories = menu.reduce((value, item) => {
+        if (!value.includes(item.category)) {
+            value.push(item.category)
+        }
+        return value;
+    },["All"]
+);
+
+const categoryList = () => {
+    const categoryBtns = categories.map((category) => {
         return `<button class="btn btn-outline-dark btn-item" data-id=${category}>${category}</button>`;
-      })
-      .join("");
-  
+    }).join("");
+
     btnContainer.innerHTML = categoryBtns;
     const filterBtns = document.querySelectorAll(".btn-item");
-  
-    //filter menu
+
     filterBtns.forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const category = e.currentTarget.dataset.id;
-        console.log(category);
-        const menuCategory = menu.filter((menuItem) => {
-          if (menuItem.category === category) {
-            return menuItem;
-          }
+        btn.addEventListener("click", (e) => {
+            const category = e.currentTarget.dataset.id;
+            console.log(category);
+            const menuCategory = menu.filter((menuItem) => {
+                if (menuItem.category === category) {
+                    return menuItem;
+                }
+            });
+            if (category === "All") {
+                menuList(menu);
+            } else {
+                menuList(menuCategory)
+            }
         });
-        if (category === "All") {
-          menuList(menu);
-        } else {
-          menuList(menuCategory);
-        }
-      });
-    });
-  };
-  
-  const menuList = (menuItems) => {
+    }
+    );
+};
+
+const menuList = (menuItems) => {
     let displayMenu = menuItems.map((item) => {
       return `<div class="menu-items col-lg-6 col-sm-12">
               <img
